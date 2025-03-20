@@ -1,0 +1,135 @@
+{
+    "Protanopia": [
+      {
+        "question": "When looking at traffic lights, do the red and green lights appear the same or very similar?",
+        "options": ["A) Yes, they look the same", "B) They look slightly different", "C) No, I can tell them apart"]
+      },
+      {
+        "question": "In images with red and green objects, can you clearly distinguish the red ones?",
+        "options": ["A) No, they blend together", "B) Sometimes, but it’s difficult", "C) Yes, I can tell them apart easily"]
+      },
+      {
+        "question": "Can you easily identify red flowers in a green field?",
+        "options": ["A) No, I can’t distinguish the flowers from the field", "B) I can see them, but they look muted", "C) Yes, I can identify them clearly"]
+      },
+      {
+        "question": "Do you have trouble identifying red text on a white background?",
+        "options": ["A) Yes, it’s very difficult", "B) It’s somewhat difficult", "C) No, I can read it easily"]
+      },
+      {
+        "question": "When presented with shades of red, do they seem muted or indistinguishable?",
+        "options": ["A) Yes, they look very dull", "B) Some shades are hard to tell apart", "C) No, I can see the different shades clearly"]
+      }
+    ],
+    "Deuteranopia": [
+      {
+        "question": "Can you distinguish between green and brown objects in nature, such as trees and grass?",
+        "options": ["A) No, they look the same", "B) They look similar, but I can distinguish them", "C) Yes, they look different to me"]
+      },
+      {
+        "question": "Does green clothing appear gray or brown to you?",
+        "options": ["A) Yes, most of the time", "B) Sometimes, but not always", "C) No, I can see the green clearly"]
+      },
+      {
+        "question": "When viewing traffic lights, do the green lights look dim or washed out?",
+        "options": ["A) Yes, they look washed out", "B) They look somewhat dull", "C) No, they look normal to me"]
+      },
+      {
+        "question": "Do red and green colors seem very similar or hard to differentiate?",
+        "options": ["A) Yes, they often look the same", "B) Sometimes it’s hard to tell them apart", "C) No, I can differentiate them easily"]
+      },
+      {
+        "question": "Can you easily identify green shapes or symbols on white or gray backgrounds?",
+        "options": ["A) No, it’s very difficult", "B) Sometimes I struggle", "C) Yes, I can see them easily"]
+      }
+    ],
+    "Tritanopia": [
+      {
+        "question": "Do blue objects, such as the sky or ocean, look faded or grayish to you?",
+        "options": ["A) Yes, they look faded", "B) They look slightly faded", "C) No, they look normal to me"]
+      },
+      {
+        "question": "Are you able to differentiate between blue and green when looking at landscapes?",
+        "options": ["A) No, they look the same", "B) Sometimes it’s hard to tell them apart", "C) Yes, I can tell the difference"]
+      },
+      {
+        "question": "Do yellow and blue colors often look alike?",
+        "options": ["A) Yes, I confuse them often", "B) Sometimes they look similar", "C) No, I can tell them apart"]
+      },
+      {
+        "question": "When viewing blue objects on a white background, do they seem less vibrant?",
+        "options": ["A) Yes, they look dull", "B) They look slightly dull", "C) No, they look bright to me"]
+      },
+      {
+        "question": "Can you distinguish between blue and purple in everyday objects like clothing or signs?",
+        "options": ["A) No, they look the same", "B) Sometimes it’s hard to differentiate them", "C) Yes, I can see the difference"]
+      }
+    ],
+    "Protanomaly": [
+      {
+        "question": "Can you tell the difference between bright red and dark orange objects?",
+        "options": ["A) No, they look very similar", "B) Sometimes it’s hard to tell them apart", "C) Yes, I can tell the difference"]
+      },
+      {
+        "question": "When looking at a sunset, do the reds appear duller than other colors?",
+        "options": ["A) Yes, they look much duller", "B) They look slightly less vibrant", "C) No, they look normal to me"]
+      },
+      {
+        "question": "Do pink and red shades blend together for you in images or artwork?",
+        "options": ["A) Yes, they often look the same", "B) Sometimes they blend together", "C) No, I can tell them apart"]
+      },
+      {
+        "question": "When viewing red fruits, like apples, do they look faded compared to green ones?",
+        "options": ["A) Yes, they look washed out", "B) They look slightly faded", "C) No, they look normal"]
+      },
+      {
+        "question": "Do red text and symbols on light-colored backgrounds seem less intense?",
+        "options": ["A) Yes, they look faint", "B) They look slightly less vibrant", "C) No, they look bold to me"]
+      }
+    ],
+    "Deuteranomaly": [
+      {
+        "question": "Do green objects, such as leaves, appear less vibrant or washed out?",
+        "options": ["A) Yes, they look faded", "B) They look slightly dull", "C) No, they look normal"]
+      },
+      {
+        "question": "When looking at a green traffic light, does it appear dull or gray?",
+        "options": ["A) Yes, it looks gray", "B) It looks slightly dull", "C) No, it looks bright to me"]
+      },
+      {
+        "question": "Can you easily distinguish between green and brown shades in everyday life?",
+        "options": ["A) No, they look very similar", "B) Sometimes it’s difficult", "C) Yes, I can see the difference"]
+      },
+      {
+        "question": "Do green plants look less distinct from yellow or brown objects?",
+        "options": ["A) Yes, they look similar", "B) Sometimes they blend together", "C) No, they look distinct to me"]
+      },
+      {
+        "question": "Do shades of green appear more muted compared to other colors?",
+        "options": ["A) Yes, they look much duller", "B) They look slightly duller", "C) No, they look as vibrant as other colors"]
+      }
+    ],
+    "Tritanomaly": [
+      {
+        "question": "Do blue skies appear less bright or more muted than other colors?",
+        "options": ["A) Yes, they look dull", "B) They look slightly muted", "C) No, they look normal to me"]
+      },
+      {
+        "question": "Can you distinguish between blue and green objects, such as a blue sky and green water?",
+        "options": ["A) No, they look very similar", "B) Sometimes it’s difficult to tell them apart", "C) Yes, I can see the difference"]
+      },
+      {
+        "question": "When viewing yellow flowers, do they blend in with other colors?",
+        "options": ["A) Yes, they look similar to other colors", "B) Sometimes they blend together", "C) No, they stand out to me"]
+      },
+      {
+        "question": "Do you have difficulty identifying blue objects on light backgrounds?",
+        "options": ["A) Yes, it’s hard to see them", "B) Sometimes it’s difficult", "C) No, I can see them easily"]
+      },
+      {
+        "question": "Can you differentiate between blue and purple clothing?",
+        "options": ["A) No, they look the same", "B) Sometimes they look similar", "C) Yes, I can tell the difference"]
+      }
+    ]
+  }
+  

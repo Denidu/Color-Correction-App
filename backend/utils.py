@@ -17,7 +17,7 @@ class Modify:
 
     @staticmethod
     def colour_correction_matrix(blindness_type, severity_level):
-        # Define the matrix values based on the type of color blindness
+
         if blindness_type == 'protanopia':
             matrix = np.array([[1 - severity_level / 2, severity_level / 2, 0],
                                [severity_level / 2, 1 - severity_level / 2, 0],
@@ -56,7 +56,7 @@ class LoadImage:
     @staticmethod
     def process_RGB(path):
         image = Image.open(path)
-        rgb_image = np.array(image.convert('RGB')) / 255  # Ensure the image is in RGB format
+        rgb_image = np.array(image.convert('RGB')) / 255 
         return rgb_image
 
 

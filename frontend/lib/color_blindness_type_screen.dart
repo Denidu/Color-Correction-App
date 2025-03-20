@@ -18,7 +18,7 @@ class ColorBlindnessTypeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(120), // Increases the AppBar height
+        preferredSize: const Size.fromHeight(120),
         child: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
@@ -28,11 +28,11 @@ class ColorBlindnessTypeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image.asset(
-                  'assets/colorloom.png', // Ensure this image exists in your assets folder
+                  'assets/colorloom.png',
                   width: 50,
                   height: 50,
                 ),
-                const SizedBox(height: 8), // Adds spacing between logo and title
+                const SizedBox(height: 8),
                 const Text(
                   'Select Your Color-Blindness Type',
                   style: TextStyle(
@@ -56,7 +56,6 @@ class ColorBlindnessTypeScreen extends StatelessWidget {
                 context,
                 colorBlindnessTypes[index]['title']!,
                 colorBlindnessTypes[index]['description']!,
-                const SeverityLevelScreen(),
               );
             }),
           ),
@@ -65,7 +64,7 @@ class ColorBlindnessTypeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTypeCard(BuildContext context, String title, String description, Widget nextScreen) {
+  Widget _buildTypeCard(BuildContext context, String title, String description) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Card(
@@ -95,7 +94,9 @@ class ColorBlindnessTypeScreen extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => nextScreen),
+              MaterialPageRoute(
+                builder: (context) => SeverityLevelScreen(selectedType: title),
+              ),
             );
           },
         ),
