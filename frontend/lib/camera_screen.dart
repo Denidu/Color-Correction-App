@@ -73,7 +73,7 @@ class _CameraScreenState extends State<CameraScreen> {
     });
 
     var request = http.MultipartRequest(
-      'POST', Uri.parse('http://192.168.1.100:5002/upload'),
+      'POST', Uri.parse('http://192.168.8.165:5002/upload'),
     );
 
     request.files.add(

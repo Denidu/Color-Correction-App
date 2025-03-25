@@ -6,18 +6,20 @@ import cv2
 from utils import Modify, LoadImage
 
 class Main:
-
     @staticmethod
     def correctImage(get_path: str,
                      blindness_type: str,
                      severity_level: float,
                      return_type_image: str = 'save',
-                     save_path: str = None):
-        
-        rgb_image = LoadImage.process_RGB(get_path)
+                     save_path: str = None,
+                     frame: np.ndarray = None):
+
+        if frame is not None:
+            rgb_image = frame
+        else:
+            rgb_image = LoadImage.process_RGB(get_path)
 
         matrix = Modify.colour_correction_matrix(blindness_type, severity_level)
-
         corrected_image = np.uint8(np.dot(rgb_image, matrix) * 255)
 
         if return_type_image == 'save':
@@ -30,7 +32,6 @@ class Main:
         
         if return_type_image == 'pil':
             return Image.fromarray(corrected_image)
-
 
 def parse_args():
     parse = argparse.ArgumentParser(description='Colour Correct Images for Colour-Blindness')
