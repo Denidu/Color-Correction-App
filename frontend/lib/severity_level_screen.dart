@@ -71,6 +71,7 @@ class SeverityLevelScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontFamily: 'Serif',
+                      color: Colors.black
                     ),
                   ),
                 ),

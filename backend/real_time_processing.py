@@ -1,38 +1,43 @@
 import cv2
 import numpy as np
-from utils import LoadImage
-from color_correction import Main
+from color_correction import Main  
 
-def real_time_color_correction(color_type, severity_level):
-
-    matrix = Main.get_color_correction_matrix(color_type, severity_level)
-
+def correct_color_realtime(blindness_type, severity):
     cap = cv2.VideoCapture(0)  
 
     if not cap.isOpened():
-        print("Error: Could not open webcam.")
+        print("Error: Could not open webcam or video file.")
         return
-
-    print("Press 'q' to quit.")
 
     while True:
         ret, frame = cap.read()
         if not ret:
-            print("Failed to capture frame. Exiting...")
+            print("Error: Couldn't read frame.")
             break
 
-        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) / 255.0
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-        corrected_frame = np.dot(rgb_frame, matrix)
-        corrected_frame = np.clip(corrected_frame, 0, 1) 
+        corrected_frame = Main.correctImage(
+            get_path=None,
+            blindness_type=blindness_type,
+            severity_level=severity,
+            return_type_image='np',
+            frame=frame_rgb
+        )
 
-        corrected_frame_bgr = (corrected_frame * 255).astype(np.uint8)
-        corrected_frame_bgr = cv2.cvtColor(corrected_frame_bgr, cv2.COLOR_RGB2BGR)
+        if corrected_frame is None or not isinstance(corrected_frame, np.ndarray):
+            print("Error: Color correction failed.")
+            break
 
-        cv2.imshow("Color-Corrected Video Feed", corrected_frame_bgr)
+        corrected_frame_bgr = cv2.cvtColor(corrected_frame, cv2.COLOR_RGB2BGR)
+
+        combined_frame = np.hstack((frame, corrected_frame_bgr))
+        cv2.imshow("Original (Left) | Corrected (Right)", combined_frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
     cap.release()
     cv2.destroyAllWindows()
+
+correct_color_realtime(blindness_type="Protanopia", severity="moderate")
