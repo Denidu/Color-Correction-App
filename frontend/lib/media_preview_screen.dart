@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:flutter/services.dart';
 
 class MediaPreviewScreen extends StatefulWidget {
   final String originalMediaPath;
@@ -36,16 +34,14 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen> {
           setState(() {});
           _originalController!.play();
         }).catchError((e) {
-          // Handle error loading original video
           print("Error loading original video: $e");
         });
 
       _correctedController = VideoPlayerController.network(widget.correctedMediaUrl)
         ..initialize().then((_) {
           setState(() {});
-          _correctedController!.play();  // Make sure to start playing the corrected video
+          _correctedController!.play();
         }).catchError((e) {
-          // Handle error loading corrected video
           print("Error loading corrected video: $e");
         });
     }
@@ -56,6 +52,20 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen> {
     _originalController?.dispose();
     _correctedController?.dispose();
     super.dispose();
+  }
+
+  void _playOriginalVideo() {
+    setState(() {
+      _originalController!.seekTo(Duration.zero);
+      _originalController!.play();
+    });
+  }
+
+  void _playCorrectedVideo() {
+    setState(() {
+      _correctedController!.seekTo(Duration.zero);
+      _correctedController!.play();
+    });
   }
 
   Future<void> _saveImage() async {
@@ -122,9 +132,21 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen> {
                   widget.isVideo
                       ? (_originalController != null &&
                               _originalController!.value.isInitialized
-                          ? AspectRatio(
-                              aspectRatio: _originalController!.value.aspectRatio,
-                              child: VideoPlayer(_originalController!),
+                          ? Stack(
+                              children: [
+                                AspectRatio(
+                                  aspectRatio: _originalController!.value.aspectRatio,
+                                  child: VideoPlayer(_originalController!),
+                                ),
+                                Positioned(
+                                  bottom: 20,
+                                  right: 20,
+                                  child: IconButton(
+                                    icon: Icon(Icons.refresh, color: Colors.white, size: 30),
+                                    onPressed: _playOriginalVideo,
+                                  ),
+                                ),
+                              ],
                             )
                           : const CircularProgressIndicator())
                       : Image.file(File(widget.originalMediaPath),
@@ -142,9 +164,21 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen> {
                   if (widget.isVideo)
                     (_correctedController != null &&
                             _correctedController!.value.isInitialized
-                        ? AspectRatio(
-                            aspectRatio: _correctedController!.value.aspectRatio,
-                            child: VideoPlayer(_correctedController!),
+                        ? Stack(
+                            children: [
+                              AspectRatio(
+                                aspectRatio: _correctedController!.value.aspectRatio,
+                                child: VideoPlayer(_correctedController!),
+                              ),
+                              Positioned(
+                                bottom: 20,
+                                right: 20,
+                                child: IconButton(
+                                  icon: Icon(Icons.refresh, color: Colors.black, size: 30),
+                                  onPressed: _playCorrectedVideo,
+                                ),
+                              ),
+                            ],
                           )
                         : const CircularProgressIndicator())
                   else
