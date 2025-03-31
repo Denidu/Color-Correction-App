@@ -8,13 +8,13 @@ import 'package:http_parser/http_parser.dart';
 import 'media_preview_screen.dart';
 
 class CameraScreen extends StatefulWidget {
-  final String selectedType;
-  final String selectedSeverity;
+  final String selectedColorBlindnessType;
+  final String selectedColorBlindnessSeverity;
 
   const CameraScreen({
     Key? key,
-    required this.selectedType,
-    required this.selectedSeverity,
+    required this.selectedColorBlindnessType,
+    required this.selectedColorBlindnessSeverity,
   }) : super(key: key);
 
   @override
@@ -34,7 +34,7 @@ class _CameraScreenState extends State<CameraScreen> {
     super.dispose();
   }
 
-  Future<void> _takePicture() async {
+  Future<void> _takeSnapshots() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
 
     if (pickedFile != null) {
@@ -43,11 +43,11 @@ class _CameraScreenState extends State<CameraScreen> {
         isVideo = false;
       });
 
-      await _sendToBackend(mediaFile!, isVideo);
+      await _sendMediaToServer(mediaFile!, isVideo);
     }
   }
 
-  Future<void> _recordVideo() async {
+  Future<void> _startRecordingVideo() async {
     final pickedFile = await _picker.pickVideo(source: ImageSource.camera);
 
     if (pickedFile != null) {
@@ -63,17 +63,17 @@ class _CameraScreenState extends State<CameraScreen> {
           _videoController!.play();
         });
 
-      await _sendToBackend(mediaFile!, isVideo);
+      await _sendMediaToServer(mediaFile!, isVideo);
     }
   }
 
-  Future<void> _sendToBackend(File file, bool isVideo) async {
+  Future<void> _sendMediaToServer(File file, bool isVideo) async {
     setState(() {
       isUploading = true; 
     });
 
     var request = http.MultipartRequest(
-      'POST', Uri.parse('https://2b81-2402-4000-23c0-30ce-c433-9c63-931e-1acf.ngrok-free.app/upload')
+      'POST', Uri.parse('https://5aa0-2402-4000-2150-235-eddd-559e-885-7957.ngrok-free.app/upload')
     );
 
     request.files.add(
@@ -83,8 +83,8 @@ class _CameraScreenState extends State<CameraScreen> {
       ),
     );
 
-    request.fields['colorBlindnessType'] = widget.selectedType;
-    request.fields['severity'] = widget.selectedSeverity;
+    request.fields['colorBlindnessType'] = widget.selectedColorBlindnessType;
+    request.fields['severity'] = widget.selectedColorBlindnessSeverity;
 
     try {
       var response = await request.send();
@@ -109,7 +109,6 @@ class _CameraScreenState extends State<CameraScreen> {
         throw Exception('Upload failed: ${response.reasonPhrase}');
       }
     } catch (e) {
-      print('Error: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Upload failed: $e')),
       );
@@ -135,12 +134,12 @@ class _CameraScreenState extends State<CameraScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: _takePicture,
+                  onPressed: _takeSnapshots,
                   child: Text("Capture Photo"),
                 ),
                 SizedBox(width: 10),
                 ElevatedButton(
-                  onPressed: _recordVideo,
+                  onPressed: _startRecordingVideo,
                   child: Text("Record Video"),
                 ),
               ],

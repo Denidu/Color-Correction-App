@@ -3,26 +3,26 @@ import os
 import cv2
 import numpy as np
 from flask_cors import CORS
-from run import correct_color  # Ensure this function correctly processes images & frames.
+from run import correct_color  
 
 app = Flask(__name__)
 
 CORS(app, origins=["http://localhost:3000", "http://127.0.0.1:3000", "http://192.168.1.4:3000"])
 
-UPLOAD_FOLDER = 'uploads'
-PROCESSED_FOLDER = 'processed'
-ALLOWED_IMAGE_EXTENSIONS = {'png', 'jpg', 'jpeg'}
-ALLOWED_VIDEO_EXTENSIONS = {'mp4', 'mov'}
+UPLOAD_FOLDER_NAME = 'uploads'
+PROCESSED_FOLDER_NAME = 'processed'
+ALLOWED_IMAGE_EXTENSIONS_AS = {'png', 'jpg', 'jpeg'}
+ALLOWED_VIDEO_EXTENSIONS_AS = {'mp4', 'mov'}
 
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['PROCESSED_FOLDER'] = PROCESSED_FOLDER
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER_NAME
+app.config['PROCESSED_FOLDER'] = PROCESSED_FOLDER_NAME
 
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs(PROCESSED_FOLDER, exist_ok=True)
+os.makedirs(UPLOAD_FOLDER_NAME, exist_ok=True)
+os.makedirs(PROCESSED_FOLDER_NAME, exist_ok=True)
 
-def allowed_file(filename, file_type):
+def allow_files(filename, file_type):
     extension = filename.rsplit('.', 1)[1].lower()
-    return extension in (ALLOWED_IMAGE_EXTENSIONS if file_type == 'image' else ALLOWED_VIDEO_EXTENSIONS)
+    return extension in (ALLOWED_IMAGE_EXTENSIONS_AS if file_type == 'image' else ALLOWED_VIDEO_EXTENSIONS_AS)
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -38,25 +38,25 @@ def upload_file():
     else:
         return jsonify({"error": "No file part"}), 400
 
-    if file and allowed_file(file.filename, file_type):
+    if file and allow_files(file.filename, file_type):
         filename = file.filename
         save_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(save_path)
 
-        blindness_type = request.form.get('colorBlindnessType')
-        severity_str = request.form.get('severity')
+        color_blindness_type = request.form.get('colorBlindnessType')
+        severity = request.form.get('severity')
 
-        severity_map = {'Mild': 0.25, 'Moderate': 0.5, 'Severe': 0.75}
-        severity = severity_map.get(severity_str, 0.25)
+        severity_level = {'Mild': 0.25, 'Moderate': 0.5, 'Severe': 0.75}
+        severity = severity_level.get(severity, 0.25)
 
-        processed_media_path = os.path.join(app.config['PROCESSED_FOLDER'], filename)
+        processed_media_location = os.path.join(app.config['PROCESSED_FOLDER'], filename)
 
         if file_type == 'image':
-            correct_color(save_path, blindness_type, severity, processed_media_path)
+            correct_color(save_path, color_blindness_type, severity, processed_media_location)
             return jsonify({"correctedMediaURL": f"http://{request.host}/static/processed/{filename}"})
 
         elif file_type == 'video':
-            success, frame_count = process_video(save_path, processed_media_path, blindness_type, severity)
+            success, frame_count = process_video_correction(save_path, processed_media_location, color_blindness_type, severity)
             if success:
                 return jsonify({
                     "correctedMediaURL": f"http://{request.host}/static/processed/{filename}",
@@ -67,7 +67,7 @@ def upload_file():
 
     return jsonify({"error": "Invalid file format"}), 400
 
-def process_video(input_path, output_path, blindness_type, severity):
+def process_video_correction(input_path, output_path, blindness_type, severity):
     frame_count = 0
 
     cap = cv2.VideoCapture(input_path)
@@ -103,7 +103,7 @@ def process_video(input_path, output_path, blindness_type, severity):
 
 @app.route('/static/processed/<filename>')
 def serve_processed_file(filename):
-    file_path = os.path.join(PROCESSED_FOLDER, filename)
+    file_path = os.path.join(PROCESSED_FOLDER_NAME, filename)
     if not os.path.exists(file_path):
         return jsonify({"error": "File not found"}), 404
 

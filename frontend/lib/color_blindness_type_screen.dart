@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'severity_level_screen.dart';
 
-class ColorBlindnessTypeScreen extends StatelessWidget {
-  const ColorBlindnessTypeScreen({Key? key}) : super(key: key);
+class ColorBlindnessTypeSelectionScreen extends StatelessWidget {
+  const ColorBlindnessTypeSelectionScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class ColorBlindnessTypeScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: List.generate(colorBlindnessTypes.length, (index) {
-              return _buildTypeCard(
+              return _createColorBlindnessTypeCard(
                 context,
                 colorBlindnessTypes[index]['title']!,
                 colorBlindnessTypes[index]['description']!,
@@ -64,7 +64,7 @@ class ColorBlindnessTypeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTypeCard(BuildContext context, String title, String description) {
+  Widget _createColorBlindnessTypeCard(BuildContext context, String title, String description) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
       child: Card(

@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const ColorBlindnessTypeScreen()),
+        MaterialPageRoute(builder: (context) => const ColorBlindnessTypeSelectionScreen()),
       );
     });
   }
@@ -27,8 +27,8 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: Colors.white,
       body: Center(
         child: Image.asset(
-          'assets/colorloom.png', // Replace with your actual splash image asset
-          width: 200, // Adjust size as needed
+          'assets/colorloom.png', 
+          width: 200, 
         ),
       ),
     );

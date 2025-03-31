@@ -37,7 +37,7 @@ class SeverityLevelScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ...severityLevels.map((level) {
-              return _buildSeverityCard(
+              return _buildSeverityShowingCard(
                 context,
                 level['title']!,
                 level['description']!,
@@ -54,7 +54,7 @@ class SeverityLevelScreen extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => QuestionnaireScreen(
                           colorBlindnessType: selectedType,
-                          selectedSeverity: 'Unknown', // Default or dynamically handled severity
+                          selectedSeverity: 'Unknown', 
                         ),
                       ),
                     );
@@ -83,15 +83,15 @@ class SeverityLevelScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSeverityCard(BuildContext context, String title, String description) {
+  Widget _buildSeverityShowingCard(BuildContext context, String title, String description) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => CameraScreen(
-              selectedType: selectedType,
-              selectedSeverity: title,  // Pass severity directly to CameraScreen
+              selectedColorBlindnessType: selectedType,
+              selectedColorBlindnessSeverity: title, 
             ),
           ),
         );

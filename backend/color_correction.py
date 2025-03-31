@@ -7,7 +7,7 @@ from utils import Modify, LoadImage
 
 class Main:
     @staticmethod
-    def correctImage(get_path: str,
+    def processImageCorrection(get_path: str,
                      blindness_type: str,
                      severity_level: float,
                      return_type_image: str = 'save',
@@ -17,13 +17,13 @@ class Main:
         if frame is not None:
             rgb_image = frame
         else:
-            rgb_image = LoadImage.process_RGB(get_path)
+            rgb_image = LoadImage.convert_image_to_RGB(get_path)
 
-        matrix = Modify.colour_correction_matrix(blindness_type, severity_level)
+        matrix = Modify.color_adjustment_matrix(blindness_type, severity_level)
         corrected_image = np.uint8(np.dot(rgb_image, matrix) * 255)
 
         if return_type_image == 'save':
-            assert save_path is not None, 'Save path is not provided for image!'
+            assert save_path is not None, 'Save path is not given for image!'
             cv2.imwrite(save_path, corrected_image)
             return
         
@@ -34,10 +34,10 @@ class Main:
             return Image.fromarray(corrected_image)
 
 def parse_args():
-    parse = argparse.ArgumentParser(description='Colour Correct Images for Colour-Blindness')
+    parse = argparse.ArgumentParser(description='Color Correct Images for Color-Blindness')
 
-    parse.add_argument('-input', type=str, help='Path to input image.')
-    parse.add_argument('-output', type=str, help='Path to save the output image dir.')
+    parse.add_argument('-input', type=str, help='Location to input an image.')
+    parse.add_argument('-output', type=str, help='Location to save the output image dir.')
 
     parse.add_argument('-type', type=str, choices=['protanopia', 'deuteranopia', 'tritanopia', 'protanomaly', 'deuteranomaly', 'tritanomaly'], required=True, help='Type of color blindness.')
     parse.add_argument('-severity', type=float, choices=[0.25, 0.5, 0.75], required=True, help='Severity level of the color blindness.')
@@ -54,9 +54,9 @@ def main():
     name_of_image = get_path.split('/')[-1]
     image_output_path = args.output
 
-    assert os.path.isdir(image_output_path), 'Output path should be a Directory.'
+    assert os.path.isdir(image_output_path), 'Output location should be a Directory.'
 
-    Main.correctImage(get_path=get_path,
+    Main.processImageCorrection(get_path=get_path,
                       blindness_type=args.type,
                       severity_level=args.severity,
                       return_type_image=args.return_type,

@@ -35,19 +35,18 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       setState(() {
         questions = data[widget.colorBlindnessType] ?? [];
       });
-      print("Loaded questions: $questions");
     } catch (e) {
       print("Error loading questions: $e");
     }
   }
 
-  void _nextQuestion(String answer) {
+  void _navigateNextQuestion(String answer) {
     setState(() {
       answers[currentIndex] = answer;
       if (currentIndex < questions.length - 1) {
         currentIndex++;
       } else {
-        _evaluateSeverity();
+        _evaluateSeverityLevel();
       }
     });
   }
@@ -60,7 +59,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     });
   }
 
-  void _evaluateSeverity() {
+  void _evaluateSeverityLevel() {
     int countA = answers.values.where((a) => a.startsWith('A')).length;
     int countB = answers.values.where((a) => a.startsWith('B')).length;
     int countC = answers.values.where((a) => a.startsWith('C')).length;
@@ -84,8 +83,8 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => CameraScreen(
-                    selectedType: widget.colorBlindnessType,
-                    selectedSeverity: severity,
+                    selectedColorBlindnessType: widget.colorBlindnessType,
+                    selectedColorBlindnessSeverity: severity,
                   ),
                 ),
               );
@@ -128,7 +127,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
             ...List.generate(questionData["options"].length, (index) {
               String option = questionData["options"][index];
               return GestureDetector(
-                onTap: () => _nextQuestion(option),
+                onTap: () => _navigateNextQuestion(option),
                 child: Container(
                   margin: EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(

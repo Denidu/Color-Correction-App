@@ -17,7 +17,7 @@ def correct_color_realtime(blindness_type, severity):
 
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-        corrected_frame = Main.correctImage(
+        corrected_frame = Main.processImageCorrection(
             get_path=None,
             blindness_type=blindness_type,
             severity_level=severity,

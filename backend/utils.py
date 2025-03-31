@@ -17,8 +17,8 @@ class Modify:
                          [-0.0004, -0.0041, 0.6935]]).T
 
     @staticmethod
-    def colour_correction_matrix(blindness_type, severity_level):
-        blindness_type = blindness_type.lower()
+    def color_adjustment_matrix(color_vision_deficiency_type, severity_level):
+        color_vision_deficiency_type = color_vision_deficiency_type.lower()
 
         severity_map = {
             'mild': 0.25,
@@ -29,38 +29,38 @@ class Modify:
         if isinstance(severity_level, str):
             severity_level = severity_map.get(severity_level.lower(), 0.5)
 
-        if blindness_type == 'protanopia':
+        if color_vision_deficiency_type == 'protanopia':
             matrix = np.array([[1 - severity_level / 2, severity_level / 2, 0],
                                [severity_level / 2, 1 - severity_level / 2, 0],
                                [severity_level / 4, severity_level / 4, 1 - (severity_level * 2) / 4]]).T
 
-        elif blindness_type == 'deuteranopia':
+        elif color_vision_deficiency_type == 'deuteranopia':
             matrix = np.array([[1 - severity_level / 2, 0, severity_level / 2],
                                [severity_level / 2, 1 - severity_level / 2, 0],
                                [severity_level / 4, severity_level / 4, 1 - (severity_level * 2) / 4]]).T
 
-        elif blindness_type == 'tritanopia':
+        elif color_vision_deficiency_type == 'tritanopia':
             matrix = np.array([[1 - severity_level / 2, 0, 0],
                                [0, 1 - severity_level / 2, severity_level / 2],
                                [severity_level / 4, severity_level / 4, 1 - (severity_level * 2) / 4]]).T
 
-        elif blindness_type == 'protanomaly':
+        elif color_vision_deficiency_type == 'protanomaly':
             matrix = np.array([[1 - severity_level / 2, severity_level / 2, 0],
                                [severity_level / 2, 1 - severity_level / 2, 0],
                                [severity_level / 4, severity_level / 4, 1 - severity_level / 4]]).T
 
-        elif blindness_type == 'deuteranomaly':
+        elif color_vision_deficiency_type == 'deuteranomaly':
             matrix = np.array([[1 - severity_level / 2, 0, severity_level / 2],
                                [severity_level / 2, 1 - severity_level / 2, 0],
                                [severity_level / 4, severity_level / 4, 1 - severity_level / 4]]).T
 
-        elif blindness_type == 'tritanomaly':
+        elif color_vision_deficiency_type == 'tritanomaly':
             matrix = np.array([[1 - severity_level / 2, 0, 0],
                                [0, 1 - severity_level / 2, severity_level / 2],
                                [severity_level / 4, severity_level / 4, 1 - severity_level / 4]]).T
 
         else:
-            raise ValueError(f"Unknown blindness type: {blindness_type}")
+            raise ValueError(f"Unknown blindness type: {color_vision_deficiency_type}")
 
         return matrix
 
@@ -68,31 +68,31 @@ class Modify:
 class LoadImage:
     
     @staticmethod
-    def process_RGB(path):
-        if path is None:
-            raise ValueError("The provided image path is None.")
+    def convert_image_to_RGB(input_location):
+        if input_location is None:
+            raise ValueError("The provided image location is None.")
 
-        if not os.path.exists(path):
-            raise FileNotFoundError(f"Image not found: {path}")
+        if not os.path.exists(input_location):
+            raise FileNotFoundError(f"Image not found: {input_location}")
         
         try:
-            image = Image.open(path)
+            image = Image.open(input_location)
             rgb_image = np.array(image.convert('RGB')) / 255 
             return rgb_image
         except Exception as e:
-            raise ValueError(f"Error processing image at {path}: {str(e)}")
+            raise ValueError(f"Error processing image at {input_location}: {str(e)}")
 
     @staticmethod
-    def process_LMS(path):
-        if path is None:
+    def convert_image_to_LMS(input_location):
+        if input_location is None:
             raise ValueError("The provided image path is None.")
 
-        if not os.path.exists(path):
-            raise FileNotFoundError(f"Image not found: {path}")
+        if not os.path.exists(input_location):
+            raise FileNotFoundError(f"Image not found: {input_location}")
         
         try:
-            rgb_image = np.array(Image.open(path)) / 255
+            rgb_image = np.array(Image.open(input_location)) / 255
             lms_image = np.dot(rgb_image[:, :, :3], Modify.RGB_TO_LMS())
             return lms_image
         except Exception as e:
-            raise ValueError(f"Error processing image at {path}: {str(e)}")
+            raise ValueError(f"Error processing image at {input_location}: {str(e)}")
